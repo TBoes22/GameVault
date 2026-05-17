@@ -1,7 +1,7 @@
-#GameVault - persönlich Videaspielverwaltung
+#Persönlich Videospielverwaltung
 
 ##Projektbeschreibung
-- GameVault ist eine Desktop-Anwendung, man seine persönliche Videospielsammlung verwalten kann. Hier können Nutzer ihre Spiele eintragen, deren Status bearbeiten und einsehen (in Besitz, auf der Wunschliste, verkauft, etc.). Ebenso gibt es die Möglichkeit, Spiele zu bewerten und Sammlungen mit mehreren Inhabern anzulegen. 
+- Mein Projekt ist eine Desktop-Anwendung, mit der man seine persönliche Videospielsammlung verwalten kann. Hier können Nutzer ihre Spiele eintragen, deren Status bearbeiten und einsehen (in Besitz, auf der Wunschliste, verkauft, etc.). Ebenso gibt es die Möglichkeit, Spiele zu bewerten und Sammlungen mit mehreren Inhabern anzulegen. 
   - Hauptaufgabe: Zentrale und kompakte Übersicht über die eigenen Spiele und deren Status.
   - Zielgruppe: Privatpersonen mit großer und kleiner Spielesammlung.
   - Motivation für die Nutzung: Strukturierte Übersicht über den Backlog mit personalisierten Statistiken sowie keine Gefahr des doppelten Kaufens bei großen Sammlungen.
