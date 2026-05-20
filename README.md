@@ -19,17 +19,24 @@
   - Statistiken (Wieviele Spiele, Gesamtwert, wieviele duchgespielt, etc.)
 
 ##Bereits implementierten Funktionalitäten
-- Getter- und Settermethoden implementiert
-- toString() implementiert
-- grundlegende Klassen und Variablen definiert
+- Getter- und Settermethoden  für alle Klassen implementiert
+- toString(), equals() und hashCode() implementiert
+- Grundstrukturklassen angelegt(Game, Platform, Genre, Developer, Status, Review, Player, Wishlist)
+- Funktionen addGame() und removeGame() hinzugefügt
+- ID-Variablen mit final versehen
 
-##Änderungen seit der letzten Abage
-- /
+##Änderungen seit der letzten Abgabe
+- Package-Struktur verbessert
+- Folgende Klassen implementiert:
+  - Developer, Genre, Platform, Player, Review, Status, Wishlist
+- getter-, setter-, hash-, equals- und toString-Methoden für alles Klassen implementiert 
 
 ##Noch zu implementieren
 - upddateGamaStatus()
-- hash()
-- equals()
-- Review-klasse mit Attributen
-- Wishlist
+- Datenbank:
+  - Datenbankverbindung
+  - Datenbankstruktur 
+- Netzwerk
+- GUI
+- Nebenläufigkeit 
 
