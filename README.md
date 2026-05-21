@@ -21,9 +21,12 @@
 ##Bereits implementierten Funktionalitäten
 - Getter- und Settermethoden  für alle Klassen implementiert
 - toString(), equals() und hashCode() implementiert
-- Grundstrukturklassen angelegt(Game, Platform, Genre, Developer, Status, Review, Player, Wishlist)
+- Grundstrukturklassen angelegt(Game, Platform, Genre, Developer,ReleaseDate, Status, Review, Player, Wishlist, Price)
 - Funktionen addGame() und removeGame() hinzugefügt
 - ID-Variablen mit final versehen
+- Comparator Methode 
+- Package für Suchfunktion erstellt
+- Neues Interface für spätere Suchfunktion
 
 ##Änderungen seit der letzten Abgabe
 - Package-Struktur verbessert

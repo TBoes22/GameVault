@@ -1,21 +1,24 @@
 package model;
-
+import interfaces.SearchCollection;
+import java.time.LocalDate;
 import java.util.Objects;
 
-public class Game {
+public class Game implements SearchCollection {
 
     private final int gameId;
     private String title;
     private Developer developer;
+    private final LocalDate releaseDate;
     private Genre genre;
     private Platform platform;
     private double price;
     private Status status;
 
-    public Game(int gameId, String title,Developer developer, Genre genre, Platform platform, double price, Status status){
+    public Game(int gameId, String title,Developer developer, LocalDate releaseDate, Genre genre, Platform platform, double price, Status status){
         this.gameId = gameId;
         this.title = title;
         this.developer = developer;
+        this.releaseDate = releaseDate;
         this.genre = genre;
         this.platform = platform;
         this.price = price;
@@ -39,6 +42,10 @@ public class Game {
     }
     public void setDeveloper(Developer developer){
         this.developer = developer;
+    }
+
+    public LocalDate getReleaseDate(){
+        return releaseDate;
     }
 
     public Genre getGenre(){
@@ -70,6 +77,11 @@ public class Game {
     }
 
     @Override
+    public boolean matchingKeyword(String keyword){
+        return title.toLowerCase().contains(keyword.toLowerCase());
+    }
+
+    @Override
     public String toString(){
         return title + ", " + platform + ", " + status;
     }
@@ -77,8 +89,7 @@ public class Game {
     @Override
     public boolean equals(Object o){
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Game game = (Game) o;
+        if (!(o instanceof Game game)) return false;
         return gameId == game.gameId;
     }
 

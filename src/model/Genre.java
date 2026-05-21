@@ -25,8 +25,7 @@ public class Genre {
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        Genre genre = (Genre) o;
+        if(!(o instanceof Genre genre)) return false;
         return Objects.equals(genreType, genre.genreType);
     }
 

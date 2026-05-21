@@ -1,10 +1,11 @@
 package model;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.List;
 import java.util.ArrayList;
 
 
-public class Wishlist {
+public class Wishlist implements Comparator<double> {
 
     private final int wishlistId;
     private Player player;
@@ -40,7 +41,10 @@ public class Wishlist {
 
     public void removeGame(Game game){
         games.remove(game);
+    }
 
+    public double compare(Game game1, Game game2){
+        return game1.getPrice() - game2.getPrice();
     }
     @Override
     public String toString(){
@@ -50,8 +54,7 @@ public class Wishlist {
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        Wishlist wishlist = (Wishlist) o;
+        if(!(o instanceof Wishlist wishlist)) return false;
         return wishlistId == wishlist.wishlistId;
     }
 

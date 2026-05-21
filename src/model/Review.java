@@ -33,7 +33,7 @@ public class Review {
     public void setReviewTime(LocalDate reviewTime){
         this.reviewTime = reviewTime;
     }
-return
+
     @Override
     public String toString(){
         return note;
@@ -42,8 +42,7 @@ return
     @Override
     public boolean equals(Object o){
         if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
-        Review review = (Review) o;
+        if(!(o instanceof Review review)) return false;
         return rating == review.rating && Objects.equals(note, review.note);
     }
 
