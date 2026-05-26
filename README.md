@@ -33,12 +33,15 @@
 - Folgende Klassen implementiert:
   - Developer, Genre, Platform, Player, Review, Status, Wishlist
 - getter-, setter-, hash-, equals- und toString-Methoden für alles Klassen implementiert 
+- Datenbankfunktion "TestConnection" erfolgreich getestet
+- Mydatabase.db erstellt
+- GameCollection-Klasse implementiert mit folgenden Funktionen:
+  - saveGam(),deleteGame(), showFullCollection()(ist noch nicht vollstaendig)
+
 
 ##Noch zu implementieren
-- upddateGamaStatus()
 - Datenbank:
-  - Datenbankverbindung
-  - Datenbankstruktur 
+  - weitere Funktionalitaeten
 - Netzwerk
 - GUI
 - Nebenläufigkeit 

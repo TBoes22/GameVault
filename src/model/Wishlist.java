@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-public class Wishlist implements Comparator<double> {
+public class Wishlist {
 
     private final int wishlistId;
     private Player player;
@@ -43,9 +43,7 @@ public class Wishlist implements Comparator<double> {
         games.remove(game);
     }
 
-    public double compare(Game game1, Game game2){
-        return game1.getPrice() - game2.getPrice();
-    }
+
     @Override
     public String toString(){
         return player.getUsername() + "'s Wishlist: " + games.toString();
