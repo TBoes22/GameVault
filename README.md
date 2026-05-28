@@ -36,8 +36,12 @@
 - Datenbankfunktion "TestConnection" erfolgreich getestet
 - Mydatabase.db erstellt
 - GameCollection-Klasse implementiert mit folgenden Funktionen:
-  - saveGam(),deleteGame(), showFullCollection()(ist noch nicht vollstaendig)
-
+  - saveGam(),deleteGame(), showFullCollection()
+- DatabaseConnection-Klasse implementiert mit connect()-Methode
+- Handler-Klassen erstellt und GameHandler und WishlistHandler voerst vollstaendig implementiert
+- Zweiten Konstruktor in Game.java fuer WishlistHandler hinzugefuegt
+- CRUD-Methoden in GameHandler implementiert: saveGame(), searchById(), deleteGame(), updateGame() und showFullCollection()/
+- Helperfunction convertToObject erstellt, um Daten aus der Datenbank direkt in ein Game-Objekt zu bringen
 
 ##Noch zu implementieren
 - Datenbank:

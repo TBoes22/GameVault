@@ -8,7 +8,7 @@ public class Game implements SearchCollection {
     private final int gameId;
     private String title;
     private Developer developer;
-    private final LocalDate releaseDate;
+    private LocalDate releaseDate;
     private Genre genre;
     private Platform platform;
     private double price;
@@ -23,6 +23,15 @@ public class Game implements SearchCollection {
         this.platform = platform;
         this.price = price;
         this.status = status;
+    }
+
+    //Folgender Konstruktor dient NUR der WIshlistHandler-Klasse. Anders hat es leider nicht geklappt. Bin offen fuer Feedback ob und wie ich es anders loesen kann.
+    public Game(int gameId, String title, Platform platform, Developer developer, double price){
+        this.gameId = gameId;
+        this.title = title;
+        this.platform = platform;
+        this.developer = developer;
+        this.price = price;
     }
 
     public int getGameId(){
