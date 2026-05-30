@@ -1,12 +1,7 @@
 package database;
 
 import model.*;
-
-import javax.xml.crypto.Data;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +27,6 @@ public class ReviewHandler {
                 rs.getString("reviewTime")
         );
     }
-
-
 
 
     public void saveReview(Review review, int playerId, int gameId){
