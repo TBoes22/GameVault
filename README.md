@@ -38,7 +38,7 @@
 - GameCollection-Klasse implementiert mit folgenden Funktionen:
   - saveGam(),deleteGame(), showFullCollection()
 - DatabaseConnection-Klasse implementiert mit connect()-Methode
-- Handler-Klassen erstellt und GameHandler, WishlistHandler und ReviewHandler voerst vollstaendig implementiert
+- Handler-Klassen erstellt und GameHandler, WishlistHandler, ReviewHandler und PlayerHandler voerst vollstaendig implementiert
 - Zweiten Konstruktor in Game.java fuer WishlistHandler hinzugefuegt
 - CRUD-Methoden in GameHandler implementiert: saveGame(), searchById(), deleteGame(), updateGame() und showFullCollection()/
 - Helperfunction convertToObject erstellt, um Daten aus der Datenbank direkt in ein Game-Objekt zu bringen

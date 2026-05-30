@@ -1,7 +1,7 @@
 package database;
 
 import java.sql.ResultSet;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import model.*;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 
 public class WishlistHandler {
     public void createTable(){
-        String sql = "CREATE TABLE IF NOT EXISTS wishlist (" + "playerId INTEGER" + "gameId INTEGER" + "title TEXT, " +
+        String sql = "CREATE TABLE IF NOT EXISTS wishlist (" + "playerId INTEGER," + "gameId INTEGER," + "title TEXT, " +
                 "platform TEXT, " + "developer TEXT, " +
                 "price REAL," + "PRIMARY KEY(playerId, gameId))";
         try (Connection conn = DatabaseConnection.connect();
@@ -77,6 +77,20 @@ public class WishlistHandler {
             e.printStackTrace();
         }
         return games;
+    }
+
+    public void updatePrice(int playerId, int gameId, double new_price){
+        String sql = "UPDATE wishlist SET price = ? WHERE playerId = ? AND gameId = ?";
+        try (Connection conn = DatabaseConnection.connect();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setDouble(1, new_price);
+            pstmt.setInt(2, playerId);
+            pstmt.setInt(3, gameId);
+            pstmt.executeUpdate();
+            System.out.println("Wishlist has been updated.");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
