@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class GameHandler {
     public void saveGame(Game game){
-        String sql = "INSERT INTO games VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT OR REPLACE INTO games VALUES (?,?,?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, game.getGameId());
@@ -20,7 +20,7 @@ public class GameHandler {
             pstmt.setString(6, game.getReleaseDate().toString());
             pstmt.setDouble(7, game.getPrice());
             pstmt.setString(8, game.getStatus().toString());
-            pstmt.executeUpdate(sql);
+            pstmt.executeUpdate();
             System.out.println("Game saved!");
         }catch (Exception e){
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class GameHandler {
     }
 
     public void updateGame(Game game){
-        String sql = "UPDATE games SET title = ?, platform = ?, developer = ?, genre = ?, realeaseDate = ?, price = ?, status = ?, WHERE gameId = ?";
+        String sql = "UPDATE games SET title = ?, platform = ?, developer = ?, genre = ?, releaseDate = ?, price = ?, status = ? WHERE gameId = ?";
         try (Connection conn = DatabaseConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setString(1, game.getTitle());

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReviewHandler {
     public void createTable(){
-            String sql = "CREATE TABLE IF NOT EXISTS reviews ("+ "reviewId INTEGER PRIMARY KEY," + "playerId INTEGER," + "gameId INTEGER," + "rating INTEGER," + "note TEXT," + "reviewTime TEXT)";
+            String sql = "CREATE TABLE IF NOT EXISTS reviews ("+ "reviewId INTEGER PRIMARY KEY, " + "playerId INTEGER, " + "gameId INTEGER, " + "rating INTEGER, " + "note TEXT," + "reviewTime TEXT)";
             try (Connection conn = DatabaseConnection.connect();
                 Statement stmt = conn.createStatement()){
                 stmt.executeUpdate(sql);
@@ -30,7 +30,7 @@ public class ReviewHandler {
 
 
     public void saveReview(Review review, int playerId, int gameId){
-        String sql = "INSERT INTO reviews VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT OR REPLACE INTO reviews VALUES (?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, review.getReviewId());

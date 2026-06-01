@@ -14,7 +14,7 @@ public class Game implements SearchCollection {
     private double price;
     private Status status;
 
-    public Game(int gameId, String title,Developer developer, LocalDate releaseDate, Genre genre, Platform platform, double price, Status status){
+    public Game(int gameId,String title, Developer developer, LocalDate releaseDate, Genre genre, Platform platform, double price, Status status){
         this.gameId = gameId;
         this.title = title;
         this.developer = developer;

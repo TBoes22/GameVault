@@ -42,6 +42,8 @@
 - Zweiten Konstruktor in Game.java fuer WishlistHandler hinzugefuegt
 - CRUD-Methoden in GameHandler implementiert: saveGame(), searchById(), deleteGame(), updateGame() und showFullCollection()/
 - Helperfunction convertToObject erstellt, um Daten aus der Datenbank direkt in ein Game-Objekt zu bringen
+- Dummy-Daten in DummyData.java erstellt und erfolgreich getestet
+
 
 ##Noch zu implementieren
 - Datenbank:
