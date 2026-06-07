@@ -45,6 +45,16 @@ Mein Projekt ist eine Desktop-Anwendung, mit der man seine persönliche Videospi
 - 5 Dummy-Daten pro Tabelle in DummyData.java erstellt und erfolgreich getestet
 
 ## Änderungen seit der letzten Abgabe
+### Checkliste von Blatt 2
+- [x] Überprüfen Sie, ob weiterhin alle Tutor*innen sowie Fatih Özgan Zugang zu Ihrem Repository haben
+- [x] SQLite und JDBC heruntergeladen und Verbindung getestet
+- [x] Tabellen erstellt, CRUD-Operationen implementiert und getestet
+- [x] Datenbanken gegen SQL-Injection-Angriffe geschützt
+- [x] Dummy-Daten eingefügt
+- [x] Hinweise zu Umsetzung gelesen und eingehalten
+- [x] README.md aktualisiert und als PDF auf Moodle hochgeladen
+- [x] Ergebnisse auf main-Branch gepusht und eigenständig auf der GitLab Webseite überprüft
+
 ### Verbesserungen und Überarbeitungen
 - README-Datei verbessert
 - Package-Struktur verbessert und ausgebaut
