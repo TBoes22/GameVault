@@ -1,6 +1,7 @@
-package test;
+package tests;
 import database.*;
-import model.*;
+import models.*;
+import security.LoginHandler;
 
 import java.time.LocalDate;
 
@@ -8,18 +9,28 @@ public class DummyData {
     public static void main(String[] args){
         PlayerHandler playerHandler = new PlayerHandler();
         playerHandler.createTable();
+        LoginHandler loginHandler = new LoginHandler();
 
-        Player player1 = new Player(1, "Max Mustermann", "maxmustermann@mail.de");
-        playerHandler.savePlayer(player1);
-        Player player2 = new Player(2, "Marie Mustermann", "mariemustermann@mail.de");
-        playerHandler.savePlayer(player2);
-        Player player3 = new Player(3, "Peter Mustermann", "petermustermann@mail.de");
-        playerHandler.savePlayer(player3);
-        Player player4 = new Player(4, "Lea Mustermann", "leamustermann@mail.de");
-        playerHandler.savePlayer(player4);
-        Player player5 = new Player(5, "Hans Mustermann", "hansmustermann@mail.de");
-        playerHandler.savePlayer(player5);
+        Player player1 = null;
+        Player player2 = null;
+        Player player3 = null;
+        Player player4 = null;
+        Player player5 = null;
 
+        try {
+            player1 = new Player(1, "Max Mustermann", "maxmustermann@mail.de", loginHandler.hashPW("testpassword1"));
+            playerHandler.savePlayer(player1);
+            player2 = new Player(2, "Marie Mustermann", "mariemustermann@mail.de", loginHandler.hashPW("testpassword2"));
+            playerHandler.savePlayer(player2);
+            player3 = new Player(3, "Peter Mustermann", "petermustermann@mail.de", loginHandler.hashPW("testpassword3"));
+            playerHandler.savePlayer(player3);
+            player4 = new Player(4, "Lea Mustermann", "leamustermann@mail.de", loginHandler.hashPW("testpassword4"));
+            playerHandler.savePlayer(player4);
+            player5 = new Player(5, "Hans Mustermann", "hansmustermann@mail.de", loginHandler.hashPW("testpassword5"));
+            playerHandler.savePlayer(player5);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         GameHandler gameHandler = new GameHandler();
         gameHandler.createTable();
@@ -40,11 +51,11 @@ public class DummyData {
         WishlistHandler wishlistHandler = new WishlistHandler();
         wishlistHandler.createTable();
 
-        wishlistHandler.addGameToWishlist(player1.getPlayerId(),new Game(373420, "Divinity: Original Sin", new Platform("PC"), new Developer("Larian Studios"), 39.99));
-        wishlistHandler.addGameToWishlist(player2.getPlayerId(), new Game(2868840, "Slay the Spire 2", new Platform("PC"), new Developer("Mega Crit"), 22.99));
-        wishlistHandler.addGameToWishlist(player3.getPlayerId(), new Game(3768760, "007 First Light", new Platform("PC"), new Developer("IO Interactive"),69.99));
-        wishlistHandler.addGameToWishlist(player4.getPlayerId(), new Game(620980, "Beat Saber", new Platform("VR Headset"), new Developer("Beat Games"), 29.99));
-        wishlistHandler.addGameToWishlist(player5.getPlayerId(), new Game(2483190, "Forza Horizon 6", new Platform("Xbox"), new Developer("Playground Games"), 69.99));
+        wishlistHandler.addGameToWishlist(player1.getPlayerId(),new Game(373420, "Divinity: Original Sin", new Developer("Larian Studios"), new Platform("PC"), 39.99));
+        wishlistHandler.addGameToWishlist(player2.getPlayerId(), new Game(2868840, "Slay the Spire 2", new Developer("Mega Crit"), new Platform("PC"), 22.99));
+        wishlistHandler.addGameToWishlist(player3.getPlayerId(), new Game(3768760, "007 First Light", new Developer("IO Interactive"), new Platform("PC"),69.99));
+        wishlistHandler.addGameToWishlist(player4.getPlayerId(), new Game(620980, "Beat Saber", new Developer("Beat Games"), new Platform("VR Headset"), 29.99));
+        wishlistHandler.addGameToWishlist(player5.getPlayerId(), new Game(2483190, "Forza Horizon 6", new Developer("Playground Games"), new Platform("Xbox"),69.99));
 
 
 

@@ -1,5 +1,4 @@
-package model;
-import java.util.Comparator;
+package models;
 import java.util.Objects;
 import java.util.List;
 import java.util.ArrayList;

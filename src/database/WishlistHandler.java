@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.*;
+import models.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -27,13 +27,13 @@ public class WishlistHandler {
         return new Game(
                 rs.getInt("gameId"),
                 rs.getString("title"),
-                new Platform(rs.getString("platform")),
                 new Developer(rs.getString("developer")),
+                new Platform(rs.getString("platform")),
                 rs.getDouble("price")
         );
     }
 
-    public void addGameToWishlist(int playerId, Game game){
+    public synchronized void addGameToWishlist(int playerId, Game game){
         String sql = "INSERT INTO wishlist VALUES (?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -50,17 +50,23 @@ public class WishlistHandler {
         }
     }
 
-    public void removeGameFromWishlist(int gameId){
+    public synchronized boolean removeGameFromWishlist(int gameId){
         String sql = "DELETE FROM wishlist WHERE gameId = ?";
         try (Connection conn = DatabaseConnection.connect();
-        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, gameId);
-            pstmt.executeUpdate();
-            System.out.println("Game has been removed from your Wishlist.");
+            int rows = pstmt.executeUpdate();
+            if(rows > 0){
+                System.out.println("Game removed from Wishlist!");
+                return true;
+            }else{
+                System.out.println("Game not found on Wishlist!");
+                return false;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
-
+        return false;
     }
 
     public List<Game> showPlayerWishlist(int playerId){
@@ -79,7 +85,7 @@ public class WishlistHandler {
         return games;
     }
 
-    public void updatePrice(int playerId, int gameId, double new_price){
+    public synchronized void updatePrice(int playerId, int gameId, double new_price){
         String sql = "UPDATE wishlist SET price = ? WHERE playerId = ? AND gameId = ?";
         try (Connection conn = DatabaseConnection.connect();
         PreparedStatement pstmt = conn.prepareStatement(sql)){

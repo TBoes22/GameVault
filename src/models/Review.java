@@ -1,4 +1,4 @@
-package model;
+package models;
 import java.util.Objects;
 import java.time.LocalDate;
 
@@ -26,8 +26,19 @@ public class Review {
         this.gameId = gameId;
         this.rating = rating;
         this.note = note;
-        this.reviewTime = LocalDate.parse(reviewTime);
+
+        if(reviewTime != null && !reviewTime.isEmpty()){
+            try{
+                this.reviewTime = LocalDate.parse(reviewTime);
+            }catch (Exception e){
+                System.out.println("Invalid Date!");
+                this.reviewTime = LocalDate.now();
+            }
+        }else{
+            this.reviewTime = LocalDate.now();
+        }
     }
+
 
     public int getPlayerId(){
         return playerId;

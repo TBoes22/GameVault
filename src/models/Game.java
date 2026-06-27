@@ -1,9 +1,11 @@
-package model;
+package models;
 import interfaces.SearchCollection;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Game implements SearchCollection {
+public class Game implements SearchCollection, Serializable {
 
     private final int gameId;
     private String title;
@@ -26,11 +28,11 @@ public class Game implements SearchCollection {
     }
 
     //Folgender Konstruktor dient NUR der WIshlistHandler-Klasse. Anders hat es leider nicht geklappt. Bin offen fuer Feedback ob und wie ich es anders loesen kann.
-    public Game(int gameId, String title, Platform platform, Developer developer, double price){
+    public Game(int gameId, String title, Developer developer, Platform platform, double price){
         this.gameId = gameId;
         this.title = title;
-        this.platform = platform;
         this.developer = developer;
+        this.platform = platform;
         this.price = price;
     }
 

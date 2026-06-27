@@ -1,5 +1,5 @@
-package library;
-import model.Game;
+package librarys;
+import models.Game;
 import java.util.Comparator;
 
 public class compareGamesBy {

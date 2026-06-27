@@ -1,6 +1,6 @@
 package database;
 
-import model.*;
+import models.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ReviewHandler {
     }
 
 
-    public void saveReview(Review review, int playerId, int gameId){
+    public synchronized void saveReview(Review review, int playerId, int gameId){
         String sql = "INSERT OR REPLACE INTO reviews VALUES (?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -46,16 +46,23 @@ public class ReviewHandler {
         }
     }
 
-    public void deleteReview(int reviewId){
+    public synchronized boolean deleteReview(int reviewId){
         String sql = "DELETE FROM reviews WHERE reviewId = ?";
         try (Connection conn = DatabaseConnection.connect();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, reviewId);
-            pstmt.executeUpdate();
-            System.out.println("Review has been deleted");
+            int rows = pstmt.executeUpdate();
+            if(rows > 0){
+                System.out.println("Review has been deleted!");
+                return true;
+            }else{
+                System.out.println("Review not found!");
+                return false;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
+        return false;
     }
 
     public List<Review> findGameReview(int gameId){
@@ -74,13 +81,14 @@ public class ReviewHandler {
         return reviews;
     }
 
-    public void updateReview(Review review){
+    public synchronized void updateReview(Review review){
         String sql = "UPDATE reviews SET rating = ?, note = ?, reviewTime = ? WHERE reviewId = ?";
         try (Connection conn = DatabaseConnection.connect();
         PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, review.getRating());
             pstmt.setString(2, review.getNote());
             pstmt.setString(3, review.getReviewTime().toString());
+            pstmt.setInt(4, review.getReviewId());
             pstmt.executeUpdate();
             System.out.println("Review has been updated.");
         }catch (Exception e){

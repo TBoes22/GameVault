@@ -1,8 +1,9 @@
-package model;
+package models;
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Platform {
+public class Platform implements Serializable {
 
     private String platformName;
 

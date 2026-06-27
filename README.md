@@ -46,34 +46,42 @@ Mein Projekt ist eine Desktop-Anwendung, mit der man seine persönliche Videospi
 
 ## Änderungen seit der letzten Abgabe
 ### Checkliste von Blatt 2
+Allgemein
 - [x] Überprüfen Sie, ob weiterhin alle Tutor*innen sowie Fatih Özgan Zugang zu Ihrem Repository haben
-- [x] SQLite und JDBC heruntergeladen und Verbindung getestet
-- [x] Tabellen erstellt, CRUD-Operationen implementiert und getestet
-- [x] Datenbanken gegen SQL-Injection-Angriffe geschützt
-- [x] Dummy-Daten eingefügt
-- [x] Hinweise zu Umsetzung gelesen und eingehalten
 - [x] README.md aktualisiert und als PDF auf Moodle hochgeladen
-- [x] Ergebnisse auf main-Branch gepusht und eigenständig auf der GitLab Webseite überprüft
+- [x] Feedback zu Blatt 1 und 2 umgesetzt
+- [x] Ergebnisse auf main-branch gepusht und selbstständig auf der GitLab-Website überprüft
+- Netzwerk
+- [x] Client und Server können erfolgreich verbinden
+- [x] mindestens 3 verschiedene Commands implementiert
+- [x] Server verarbeitet Anfragen korrekt
+- [x] Server greift korrekt auf die Datenbank aus Blatt 2 zu
+- DTO / Kommunikation
+- [x] Für jede komplexe Anfrage wird eine eigene DTO-Klasse verwendet
+- [x] keine reine String-basierte Kommunikation
+- Nebenläufigkeit und Synchronisation
+- [x] mehrere Clients gleichzeitig getestet
+- [x] mindestens eine Methode synchronisiert
+- [x] Race condition getestet und dokumentiert (ganz unten)
 
 ### Verbesserungen und Überarbeitungen
-- README-Datei verbessert
-- Package-Struktur verbessert und ausgebaut
-- Game.java und Review.java um zweiten Konstruktor erweitert für WishlistHandler.java und ReviewHandler.java
-
-### Neue Klassen 
-- Developer.java, Genre.java, Platform.java, Player.java, Review.java, Status.java, Wishlist.java
-- DatabaseConnection.java für Datenbankverbindung
-- GameHandler.java, PlayerHandler.java, WishlistHandler.java und ReviewHandler.java mit CRUD-Funktionen für Tabellen
-- DummyData.java mit Testdaten für Tabellen
-
+- weitere packages hinzugefügt(tests, security, dto-packages)
+- in Player.java password Attribut, get- und setPassword hinzugefügt
+- in PlayerHandler.java password TEXT Spalte in createTable() hinzugefügt
+- in Developer.java, Genre.java, Platform.java und Game.java jeweils implements Serializable hinzugefügt
+- in GameHandler.java, WishlistHandler.java, ReviewHandler.java und PlayerHandler.java schreibende Methoden mit **synchronized** versehen
+  - hierbei habe ich nur "schreibende" methoden mit synchronized versehen, da nur diese aktiv auf die Datenbank zugreifen und Daten verändern können
+- in DummyData werden password jetzt korrekt gehasht gespeichert
+### Neue Klassen
+- Commands.java als ENUM mit allen Client Anfragen
+- StatusCommand.java als ENUM mit allen Server Antworten
+- Server.java um Server auf Port 8080 zu starten
+- ClientHandler.java Client in einzelnen Thread zu verarbeiten
+- GameClient.java stellt Anfragen an Server
+- DummyClients.java startet zwei GameClients testweise gleichzeitig
 ### Neue Funktionen
-- getter-, setter-, hash-, equals- und toString-Methoden für alles Klassen implementiert
-- Hilfsfunktion convertToObject() in jeder Handler-Klasse erstellt
-- **In GameHandler.java**: saveGame(), deleteGame(), updateGame(), seachById(), showFullCollection() 
-- **In PlayerHandler.java**: savePlayer(), deletePlayer(), updatePlayer(), findPlayerById() 
-- **In WishlistHandler.java**: addGameToWishlist(), removeGameFromWishlist(), showPlayerWishlist(), updateGamePrice() 
-- **In ReviewHandler.java** : saveReview(), deleteReview(), updateReview(), updateReview()
-
+- in **GameClient.java**: login(), registration(), getGames(), addGames(), deleteGames(), getWishlist(), addToWishlist(), updateWishlist(), addReview(), start()
+- in **LoginHandler**: hashPW(), registration(), login()
 ### Datenbankstruktur
 - Folgende Tabellen wurden erstellt:
   1. games mit Primary Key gameId → Speichert alle übergebenen Spielinformationen
@@ -84,7 +92,18 @@ Mein Projekt ist eine Desktop-Anwendung, mit der man seine persönliche Videospi
 
 ## Noch zu implementieren
 - Statistics.java → Wieviele Spiele, Gesamtwert der Sammlung anhand des Einkaufpreises, etc
-- Login.java → **Hierbei bin ich mir noch nicht sicher wie ich das genau umsetzen werde, wird aber noch implementiert**
 - GUI
-- Nebenläufigkeit 
+
+## Umsetzung von Feedback zu Blatt 2
+- "Zweitkonstruktoren in Game sind inkonsistent in Parameterreihenfolge" wurde gefixt
+- "DatabaseConnection.connect() gibt bei Fehler null zurück" → habe **throws SQLException** hinzugefügt
+- "Datumskonvertierung sollte auf null/FOrmatfehler geprüft werden" → habe Nullcheck in der convertToObject()-Methode in GameHandler.java implementiert, sowie Nullcheck im Zweitkonstruktor von Review. LocalDate.MIN und LocalDate.NOW() dienen als Absicherung, damit trotzdem ein Wert übergeben wird
+
+
+## Race Condition Dokumentation
+Ausgangssituation ist, dass zwei Clients gleichzeitig auf dieselbe Ressource zugreifen und versuchen, ein Spiel mit gameId 1234 zu löschen.
+Ohne Synchronisation würden beide Threads gleichzeitig auf die Datenbank zugreifen, was zu Datenbankfehlern führt.
+Mit Synchronisation kann hier GameHandler sicherstellen, dass immer nur genau ein Thread gleichzeitig auf die Datenbank zugreifen kann. Der zweite Thread würde in unserem Fall dann warten bis der erste fertig ist.
+Ich habe mich für einen TCP Socket entschieden, da beim Übertragen der Login-Daten die Zuverlässigkeit sehr wichtig ist. Ebenso kann Datenverlust fatal sein und die Reihenfolge der gesendeten Pakete muss garantiert sein.  
+
 

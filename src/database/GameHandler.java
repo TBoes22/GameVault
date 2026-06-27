@@ -1,6 +1,6 @@
 package database;
 
-import model.*;
+import models.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class GameHandler {
-    public void saveGame(Game game){
+    public synchronized void saveGame(Game game){
         String sql = "INSERT OR REPLACE INTO games VALUES (?,?,?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -27,16 +27,23 @@ public class GameHandler {
         }
     }
 
-    public void deleteGame(int gameId){
+    public synchronized boolean deleteGame(int gameId){
         String sql = "DELETE FROM games WHERE gameId = ?";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, gameId);
-            pstmt.executeUpdate();
-            System.out.println("Game deleted.");
+            int rows = pstmt.executeUpdate();
+            if(rows > 0){
+                System.out.println("Game deleted!");
+                return true;
+            }else {
+                System.out.println("Game not found!");
+                return false;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
+        return false;
     }
 
     public void createTable(){
@@ -52,7 +59,7 @@ public class GameHandler {
         }
     }
 
-    public void updateGame(Game game){
+    public synchronized void updateGame(Game game){
         String sql = "UPDATE games SET title = ?, platform = ?, developer = ?, genre = ?, releaseDate = ?, price = ?, status = ? WHERE gameId = ?";
         try (Connection conn = DatabaseConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -72,11 +79,24 @@ public class GameHandler {
     }
 
     private Game convertToObject(ResultSet rs) throws Exception{
+        String releaseDateString = rs.getString("releaseDate");
+        LocalDate releaseDate;
+        if(releaseDateString != null && !releaseDateString.isEmpty()){
+            try{
+                releaseDate = LocalDate.parse(releaseDateString);
+            }catch (Exception e){
+                System.out.println("Invalid date!");
+                releaseDate = LocalDate.MIN;
+            }
+        }else{
+            releaseDate = LocalDate.MIN;
+        }
+
         return new Game(
                 rs.getInt("gameId"),
                 rs.getString("title"),
                 new Developer(rs.getString("developer")),
-                LocalDate.parse(rs.getString("releaseDate")),
+                releaseDate,
                 new Genre(rs.getString("genre")),
                 new Platform(rs.getString("platform")),
                 rs.getDouble("price"),
