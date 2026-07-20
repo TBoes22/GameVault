@@ -1,29 +1,30 @@
 package models;
 import java.util.Objects;
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class Review {
+public class Review implements Serializable{
     private final int reviewId;
     private final int playerId;
-    private final int gameId;
+    private final String gameTitle;
     private int rating;
     private String note;
     private LocalDate reviewTime;
 
-    public Review(int reviewId,int playerId, int gameId, int rating, String note){
+    public Review(int reviewId,int playerId, String gameTitle, int rating, String note){
         this.reviewId = reviewId;
         this.playerId = playerId;
-        this.gameId = gameId;
+        this.gameTitle = gameTitle;
         this.rating = rating;
         this.note = note;
         this.reviewTime = LocalDate.now();
     }
 
     //Folgender Konstruktor nur fuer ReviewHandler
-    public Review (int reviewId, int playerId, int gameId, int rating, String note, String reviewTime){
+    public Review (int reviewId, int playerId, String gameTitle, int rating, String note, String reviewTime){
         this.reviewId = reviewId;
         this.playerId = playerId;
-        this.gameId = gameId;
+        this.gameTitle = gameTitle;
         this.rating = rating;
         this.note = note;
 
@@ -43,8 +44,8 @@ public class Review {
     public int getPlayerId(){
         return playerId;
     }
-    public int getGameId(){
-        return gameId;
+    public String getGameTitle(){
+        return gameTitle;
     }
     public int getReviewId(){
         return reviewId;

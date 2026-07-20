@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class GameClient {
-    public StatusCommand login(ObjectOutputStream out, ObjectInputStream in, String username, String password)throws Exception {
+    public int login(ObjectOutputStream out, ObjectInputStream in, String username, String password)throws Exception {
         out.writeObject(Commands.LOGIN);
         out.flush();
 
@@ -21,14 +21,17 @@ public class GameClient {
         out.flush();
 
         Object response = in.readObject();
-        if (response instanceof StatusCommand responseStatus) {
-            return responseStatus;
+
+        if (response instanceof Integer playerId) {
+            return playerId;
         }
-        return StatusCommand.INTERNAL_ERROR;
+        return -1;
     }
 
-    public List<Game> getGames(ObjectOutputStream out, ObjectInputStream in) throws Exception{
+    public List<Game> getGames(ObjectOutputStream out, ObjectInputStream in, int playerId) throws Exception{
         out.writeObject(Commands.GET_GAMES);
+        out.flush();
+        out.writeObject(playerId);
         out.flush();
 
         Object response = in.readObject();
@@ -38,11 +41,14 @@ public class GameClient {
         return null;
     }
 
-    public StatusCommand addGame(ObjectOutputStream out, ObjectInputStream in, int gameId, String title, Developer developer, LocalDate releaseDate, Genre genre, Platform platform, double price, Status status) throws Exception{
+    public StatusCommand addGame(ObjectOutputStream out, ObjectInputStream in, int gameId, String title, Developer developer, LocalDate releaseDate, Genre genre, Platform platform, double price, Status status, int playerId) throws Exception{
         out.writeObject(Commands.ADD_GAME);
         out.flush();
 
         out.writeObject(new AddGameDTO(gameId, title, developer, releaseDate, genre, platform, price, status));
+        out.flush();
+
+        out.writeObject(playerId);
         out.flush();
 
         Object response = in.readObject();
@@ -64,6 +70,19 @@ public class GameClient {
         return StatusCommand.INTERNAL_ERROR;
     }
 
+    public StatusCommand removeFromWishlist(ObjectOutputStream out, ObjectInputStream in, int gameId) throws Exception{
+        out.writeObject(Commands.REMOVE_FROM_WISHLIST);
+        out.flush();
+        out.writeObject(gameId);
+        out.flush();
+        Object response = in.readObject();
+        if(response instanceof StatusCommand responseStatus){
+            return responseStatus;
+        }
+        return StatusCommand.INTERNAL_ERROR;
+    }
+
+
     public List<Game> getWishlist(ObjectOutputStream out, ObjectInputStream in, int playerId) throws Exception{
         out.writeObject(Commands.GET_WISHLIST);
         out.flush();
@@ -75,6 +94,20 @@ public class GameClient {
         }
         return null;
     }
+
+    public List<Review> getReviews(ObjectOutputStream out, ObjectInputStream in, String title) throws Exception{
+        out.writeObject(Commands.GET_REVIEWS);
+        out.flush();
+        out.writeObject(title);
+        out.flush();
+        Object response = in.readObject();
+        if(response instanceof List<?> reviews){
+            return (List<Review>) reviews;
+        }
+        return null;
+    }
+
+
     public StatusCommand addToWishlist(ObjectOutputStream out, ObjectInputStream in, int playerId, int gameId, String title, Developer developer, LocalDate releaseDate, Genre genre, Platform platform, double price, Status status) throws Exception{
         out.writeObject(Commands.ADD_TO_WISHLIST);
         out.flush();
@@ -108,10 +141,10 @@ public class GameClient {
         }
     }
 
-    public StatusCommand addReview(ObjectOutputStream out, ObjectInputStream in,int reviewId, int playerId, int gameId, int rating, String note) throws Exception{
+    public StatusCommand addReview(ObjectOutputStream out, ObjectInputStream in,int reviewId, int playerId, String gameTitle, int rating, String note) throws Exception{
         out.writeObject(Commands.ADD_REVIEW);
         out.flush();
-        out.writeObject(new AddReviewDTO(reviewId, playerId, gameId, rating, note));
+        out.writeObject(new AddReviewDTO(reviewId, playerId, gameTitle, rating, note));
         out.flush();
         Object response = in.readObject();
         if(response instanceof StatusCommand responseStatus){
@@ -119,6 +152,18 @@ public class GameClient {
         }else{
             return StatusCommand.INTERNAL_ERROR;
         }
+    }
+
+    public StatusCommand deleteReview(ObjectOutputStream out, ObjectInputStream in, int reviewId) throws Exception{
+        out.writeObject(Commands.DELETE_REVIEW);
+        out.flush();
+        out.writeObject(reviewId);
+        out.flush();
+        Object response = in.readObject();
+        if(response instanceof StatusCommand responseStatus){
+            return responseStatus;
+        }
+        return StatusCommand.INTERNAL_ERROR;
     }
 
     public StatusCommand registration(ObjectOutputStream out, ObjectInputStream in, int playerId, String username, String email, String password) throws Exception{
@@ -141,11 +186,12 @@ public class GameClient {
 
             System.out.println("Connection established!");
 
-            //StatusCommand registrationResult = registration(out, in, 1, "Max Mustermann", "max@email.com","testpassword1");
-            //System.out.println("Registration: " + registrationResult);
-
-            StatusCommand loginResult = login(out, in, "Max Mustermann", "testpassword1");
-            System.out.println("Login: " + loginResult);
+            int playerId = login(out, in, "Max Mustermann", "testpassword1");
+            if(playerId != -1){
+                System.out.println("Login successful!");
+            }else{
+                System.out.println("Login failed.");
+            }
 
             int testGameId = 1234;
             StatusCommand deletedGame = deleteGame(out, in, testGameId);
@@ -155,10 +201,13 @@ public class GameClient {
                 System.out.println("Could not delete game: " + deletedGame);
             }
 
-            List<Game> games = getGames(out, in);
-            if(games != null){
-                for(Game game : games){
-                    System.out.println(game.toString());
+            if(playerId != -1){
+                List<Game> games = getGames(out, in, playerId);
+
+                if(games != null){
+                    for(Game game:games){
+                        System.out.println(game);
+                    }
                 }
             }
 

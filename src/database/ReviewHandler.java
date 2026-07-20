@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReviewHandler {
     public void createTable(){
-            String sql = "CREATE TABLE IF NOT EXISTS reviews ("+ "reviewId INTEGER PRIMARY KEY, " + "playerId INTEGER, " + "gameId INTEGER, " + "rating INTEGER, " + "note TEXT," + "reviewTime TEXT)";
+            String sql = "CREATE TABLE IF NOT EXISTS reviews ("+ "reviewId INTEGER PRIMARY KEY, " + "playerId INTEGER, " + "gameTitle TEXT, " + "rating INTEGER, " + "note TEXT," + "reviewTime TEXT)";
             try (Connection conn = DatabaseConnection.connect();
                 Statement stmt = conn.createStatement()){
                 stmt.executeUpdate(sql);
@@ -21,7 +21,7 @@ public class ReviewHandler {
         return new Review(
                 rs.getInt("reviewId"),
                 rs.getInt("playerId"),
-                rs.getInt("gameId"),
+                rs.getString("gameTitle"),
                 rs.getInt("rating"),
                 rs.getString("note"),
                 rs.getString("reviewTime")
@@ -29,13 +29,13 @@ public class ReviewHandler {
     }
 
 
-    public synchronized void saveReview(Review review, int playerId, int gameId){
+    public synchronized void saveReview(Review review, int playerId){
         String sql = "INSERT OR REPLACE INTO reviews VALUES (?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, review.getReviewId());
             pstmt.setInt(2, playerId);
-            pstmt.setInt(3, gameId);
+            pstmt.setString(3, review.getGameTitle());
             pstmt.setInt(4, review.getRating());
             pstmt.setString(5, review.getNote());
             pstmt.setString(6, review.getReviewTime().toString());
@@ -65,12 +65,12 @@ public class ReviewHandler {
         return false;
     }
 
-    public List<Review> findGameReview(int gameId){
+    public List<Review> findGameReview(String gameTitle){
         List<Review> reviews = new ArrayList<>();
-        String sql = "SELECT * FROM reviews WHERE gameId = ?";
+        String sql = "SELECT * FROM reviews WHERE gameTitle = ?";
         try (Connection conn = DatabaseConnection.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setInt(1, gameId);
+            pstmt.setString(1, gameTitle);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()){
                 reviews.add(convertToObject(rs));

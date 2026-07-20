@@ -9,6 +9,9 @@ public enum Commands {
     GET_WISHLIST,
     UPDATE_WISHLIST,
     ADD_TO_WISHLIST,
+    REMOVE_FROM_WISHLIST,
+    GET_REVIEWS,
     ADD_REVIEW,
+    DELETE_REVIEW,
     BYE
 }

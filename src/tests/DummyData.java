@@ -36,17 +36,17 @@ public class DummyData {
         gameHandler.createTable();
 
         Game game1 = new Game(1245620, "Elden Ring", new Developer("From Software"), LocalDate.of(2022, 2, 25), new Genre("Souls-Like"), new Platform("PC"), 59.99, Status.COMPLETED);
-        gameHandler.saveGame(game1);
+        gameHandler.saveGame(game1, 1);
         Game game2 = new Game(1085660, "Destiny 2", new Developer("Bungie"), LocalDate.of(2017, 9, 6), new Genre("Looter Shooter"), new Platform("PC"), 0.00, Status.COMPLETED);
-        gameHandler.saveGame(game2);
+        gameHandler.saveGame(game2, 1);
         Game game3 = new Game(1962700, "Subnautica 2", new Developer("Unknown Worlds Entertainment"), LocalDate.of(2026, 5, 14), new Genre("Survival"), new Platform("PC"), 29.99, Status.WISHLIST);
-        gameHandler.saveGame(game3);
+        gameHandler.saveGame(game3, 2);
         Game game4 = new Game(2183900, "Warhammer 40,000: Space Marine 2", new Developer("Saber Interactive"), LocalDate.of(2024, 9, 9), new Genre("Third-Person Shooter"), new Platform("PC"), 59.99, Status.SOLD);
-        gameHandler.saveGame(game4);
+        gameHandler.saveGame(game4, 1);
         Game game5 = new Game(1091500, "Cyberpunk 2077", new Developer("CD PROJEKT RED"), LocalDate.of(2020, 12, 10), new Genre("Cyberpunk"), new Platform("Playstation 5"), 59.99, Status.COMPLETED);
-        gameHandler.saveGame(game5);
+        gameHandler.saveGame(game5, 1);
         Game game6 = new Game(1794680, "Vampire Survivors", new Developer("poncle"), LocalDate.of(2022, 10, 22), new Genre("Rougelike"), new Platform("PC"), 4.99, Status.COMPLETED);
-        gameHandler.saveGame(game6);
+        gameHandler.saveGame(game6, 1);
 
         WishlistHandler wishlistHandler = new WishlistHandler();
         wishlistHandler.createTable();
@@ -62,15 +62,15 @@ public class DummyData {
         ReviewHandler reviewHandler = new ReviewHandler();
         reviewHandler.createTable();
 
-        Review review1 = new Review(9999, 1, 1245620, 10, "Masterwork!");
-        reviewHandler.saveReview(review1, 1, 1245620);
-        Review review2 = new Review(9998, 2, 1085660, 10, "Has its problems but nothing comes close to the gunplay and endgame-activities with friends.");
-        reviewHandler.saveReview(review2, 2, 1085660);
-        Review review3 = new Review(9997, 3, 2183900, 7, "Solid Third-Person Shooter. Would Recommend!");
-        reviewHandler.saveReview(review3, 3, 2183900);
-        Review review4 = new Review(9996, 4, 1091500, 9, "The Story is close to perfect and the gameplay is so fun.");
-        reviewHandler.saveReview(review4, 4, 1091500);
-        Review review5 = new Review(9995, 5, 1794680, 10, "Most addicting bullethell rougelike you will ever play.");
-        reviewHandler.saveReview(review5, 5, 1794680);
+        Review review1 = new Review(9999, 1, "Elden Ring", 10, "Masterwork!");
+        reviewHandler.saveReview(review1, 1);
+        Review review2 = new Review(9998, 2, "Destiny 2", 10, "Has its problems but nothing comes close to the gunplay and endgame-activities with friends.");
+        reviewHandler.saveReview(review2, 2);
+        Review review3 = new Review(9997, 3, "Subnautica 2", 7, "Solid Third-Person Shooter. Would Recommend!");
+        reviewHandler.saveReview(review3, 3);
+        Review review4 = new Review(9996, 4, "Cyberpunk 2077", 9, "The Story is close to perfect and the gameplay is so fun.");
+        reviewHandler.saveReview(review4, 4);
+        Review review5 = new Review(9995, 5, "Vampire Survivors", 10, "Most addicting bullethell rougelike you will ever play.");
+        reviewHandler.saveReview(review5, 5);
     }
 }

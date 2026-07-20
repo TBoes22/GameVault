@@ -38,7 +38,7 @@ public class LoginHandler {
         }
     }
 
-    public boolean login(String username, String password) throws Exception{
+    public int login(String username, String password) throws Exception{
         String hashedPW = hashPW(password);
         String sql = "SELECT * FROM players WHERE username = ? AND password = ?";
         try (Connection conn = DatabaseConnection.connect();
@@ -47,13 +47,11 @@ public class LoginHandler {
             pstmt.setString(2, hashedPW);
             ResultSet rs = pstmt.executeQuery();
             if(rs.next()){
-                System.out.println("Login successful!");
-                return true;
+                return rs.getInt("playerId");
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println("Login failed!");
-        return false;
+        return -1;
     }
 }

@@ -9,7 +9,9 @@ public enum StatusCommand {
     GAME_UPDATED,
     WISHLIST_UPDATED,
     GAME_ADDED_TO_WISHLIST,
+    GAME_REMOVED_FROM_WISHLIST,
     REVIEW_ADDED,
+    REVIEW_DELETED,
     BYE,
 
     ERROR,

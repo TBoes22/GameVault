@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class GameHandler {
-    public synchronized void saveGame(Game game){
-        String sql = "INSERT OR REPLACE INTO games VALUES (?,?,?,?,?,?,?,?)";
+    public synchronized void saveGame(Game game, int playerId){
+        String sql = "INSERT OR REPLACE INTO games VALUES (?,?,?,?,?,?,?,?,?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, game.getGameId());
@@ -20,6 +20,7 @@ public class GameHandler {
             pstmt.setString(6, game.getReleaseDate().toString());
             pstmt.setDouble(7, game.getPrice());
             pstmt.setString(8, game.getStatus().toString());
+            pstmt.setInt(9, playerId);
             pstmt.executeUpdate();
             System.out.println("Game saved!");
         }catch (Exception e){
@@ -49,7 +50,7 @@ public class GameHandler {
     public void createTable(){
         String sql = "CREATE TABLE IF NOT EXISTS games (" + "gameId INTEGER PRIMARY KEY, " + "title TEXT, " +
                 "platform TEXT, " + "developer TEXT, " + "genre TEXT, " + "releaseDate TEXT, " +
-                "price REAL, " + "status TEXT)";
+                "price REAL, " + "status TEXT, " + "playerId INTEGER)";
         try (Connection conn = DatabaseConnection.connect();
              Statement stmt = conn.createStatement()){
             stmt.executeUpdate(sql);
@@ -121,14 +122,16 @@ public class GameHandler {
     }
 
 
-    public List<Game> showFullCollection(){
+    public List<Game> showPlayerCollection(int playerId){
         List<Game> games = new ArrayList<>();
-        String sql = "SELECT * FROM games";
+        String sql = "SELECT * FROM games WHERE playerId = ?";
         try (Connection conn = DatabaseConnection.connect();
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql)){
-            while(rs.next()){
-                games.add(convertToObject(rs));
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, playerId);
+            try(ResultSet rs = pstmt.executeQuery()){
+                while(rs.next()) {
+                    games.add(convertToObject(rs));
+                }
             }
         }catch (Exception e){
             e.printStackTrace();

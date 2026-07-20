@@ -7,11 +7,11 @@ public class RegistrationDTO implements Serializable {
     private final String password;
     private final String email;
 
-    public RegistrationDTO(int playerId, String username, String password, String email){
+    public RegistrationDTO(int playerId, String username, String email, String password){
         this.playerId = playerId;
         this.username = username;
-        this.password = password;
         this.email = email;
+        this.password = password;
     }
 
     public int getPlayerId(){
